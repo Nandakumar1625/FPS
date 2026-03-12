@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ac4504073dbd448a1f4301c6d48c85, type: 3}
+  m_Name: Revolver
+  m_EditorClassIdentifier: 
+  firingSFX: {fileID: 8300000, guid: 8f2e0b6a87312344cb40ad4ebc6799c9, type: 3}
+  reloadSFX: {fileID: 8300000, guid: 6bbf114cb6310b847ad9e7c7d11c7a37, type: 3}
+  range: 30
+  damage: 50
+  firingInterval: 1.7
+  bulletPerRound: 6
