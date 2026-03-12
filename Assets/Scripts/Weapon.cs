@@ -16,13 +16,17 @@ public class Weapon : MonoBehaviour
     float firingTimer;
     public int loadedBullets;
   
+    private void Awake()
+    {
+        if (ui != null) uiManager = ui.GetComponent<UIManager>();
+        firingTimer = weapon != null ? weapon.firingInterval : 0;
+        loadedBullets = weapon != null ? weapon.bulletPerRound : 0;
+    }
+
     private void Start()
     {
-        audioSource = GameObject.Find("Weapons").GetComponent<AudioSource>();
-        firingTimer = weapon.firingInterval;
-        loadedBullets = weapon.bulletPerRound;
-        uiManager = ui.GetComponent<UIManager>();
-        checkAmmo(ammo.ammo);
+        audioSource = GameObject.Find("Weapons")?.GetComponent<AudioSource>();
+        if (ammo != null && uiManager != null) checkAmmo(ammo.ammo);
     }
     void Update()
     {
@@ -64,8 +68,10 @@ public class Weapon : MonoBehaviour
         GameObject Impact = Instantiate(currentHitEffect, hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(Impact, 2f);
     }
-     public void checkAmmo(ammoSO.ammoType type)
+    public void checkAmmo(ammoSO.ammoType type)
     {
+        if (uiManager == null || ammo == null) return;
+        
         if (type == ammoSO.ammoType.Single) { uiManager.updateBulletText(loadedBullets, ammo.singleAmmo); }
         else if (type == ammoSO.ammoType.Auto) { uiManager.updateBulletText(loadedBullets, ammo.autoAmmo); }
         if (loadedBullets == 0)StartCoroutine(reload(type));

@@ -90,7 +90,10 @@ public class WeaponSwitcher : MonoBehaviour
             {
                 weapon.gameObject.SetActive(true);
                 weaponScript = weapon.GetComponent<Weapon>();
-                weaponScript.checkAmmo(weaponScript.ammo.ammo);
+                if (weaponScript != null && weaponScript.ammo != null)
+                {
+                    weaponScript.checkAmmo(weaponScript.ammo.ammo);
+                }
             }
 
             else

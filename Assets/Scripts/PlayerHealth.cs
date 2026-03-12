@@ -46,34 +46,54 @@ public class PlayerHealth : MonoBehaviour
 
     public void getDamage(int damage)
     {
-        audioSource.PlayOneShot(hurtSFX[Random.Range(0,listCount)]);
-        PlayerSO.health-=damage;
-        healthBar.fillAmount -= damage/100f;
-        if (PlayerSO.health <= 0)
+        if (hurtSFX != null && hurtSFX.Count > 0 && audioSource != null)
         {
-            HandleDeath();
+            audioSource.PlayOneShot(hurtSFX[Random.Range(0, hurtSFX.Count)]);
+        }
+
+        if (PlayerSO != null)
+        {
+            PlayerSO.health -= damage;
+            if (healthBar != null) healthBar.fillAmount = PlayerSO.health / 100f;
+
+            if (PlayerSO.health <= 0)
+            {
+                HandleDeath();
+            }
         }
     }
     public void heal(int amount)
     {
+        if (PlayerSO == null) return;
+
         if (PlayerSO.health < 100)
         {
             PlayerSO.health += amount;
-            healthBar.fillAmount += amount / 100f;
+            if (healthBar != null) healthBar.fillAmount = PlayerSO.health / 100f;
         }
     }
     public void HandleDeath()
     {
-        enemyCount.enemyCount = 0;
-        enemyCount.kills = 0;
-        FindFirstObjectByType<WeaponSwitcher>().enabled = false;
-        FindFirstObjectByType<FirstPersonController>().enabled = false;
-        animator.enabled = true;
-        gameOverScreen.SetActive(true);
+        if (enemyCount != null)
+        {
+            enemyCount.enemyCount = 0;
+            enemyCount.kills = 0;
+        }
+
+        WeaponSwitcher ws = FindFirstObjectByType<WeaponSwitcher>();
+        if (ws != null) ws.enabled = false;
+
+        FirstPersonController fpc = FindFirstObjectByType<FirstPersonController>();
+        if (fpc != null) fpc.enabled = false;
+
+        if (animator != null) animator.enabled = true;
+        if (gameOverScreen != null) gameOverScreen.SetActive(true);
+
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        weapon.SetActive(false);
+
+        if (weapon != null) weapon.SetActive(false);
     }
     private void OnCollisionEnter(Collision collision)
     {
